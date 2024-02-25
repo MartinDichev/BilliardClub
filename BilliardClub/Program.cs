@@ -1,3 +1,6 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using BilliardClub.Data;
 namespace BilliardClub
 {
     public class Program
@@ -5,6 +8,8 @@ namespace BilliardClub
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.Services.AddDbContext<BilliardClubContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("BilliardClubContext") ?? throw new InvalidOperationException("Connection string 'BilliardClubContext' not found.")));
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
